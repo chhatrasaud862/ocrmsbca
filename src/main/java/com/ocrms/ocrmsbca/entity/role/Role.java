@@ -1,9 +1,9 @@
-package com.ocrms.ocrmsbca.entity.admin;
+package com.ocrms.ocrmsbca.entity.role;
 
+import com.ocrms.ocrmsbca.Enum.ERole;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -11,18 +11,21 @@ import javax.persistence.*;
  * @author CHHATRA SAUD
  * @product IntelliJ IDEA
  * @project ocrmsbca
- * @Date 04/07/2022
+ * @Date 05/07/2022
  */
-@Entity
-@Getter
-@Setter
+
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="tbl_admin")
-public class Admin {
+@Entity
+@Table(name= "roles")
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private ERole role;
 }

@@ -17,17 +17,17 @@ import java.util.List;
 @Service
 public class ComplainServiceImpl implements ComplainService {
     @Override
-    public ComplainDto save(ComplainDto complainDto) throws ParseException, IOException {
+    public ComplainDto save(ComplainDto complainDto) {
         return null;
     }
 
     @Override
-    public List<ComplainDto> findAll() throws IOException {
+    public List<ComplainDto> findAll() {
         return null;
     }
 
     @Override
-    public ComplainDto findById(Long aLong) throws IOException {
+    public ComplainDto findById(Long aLong) {
         return null;
     }
 

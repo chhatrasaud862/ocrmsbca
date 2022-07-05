@@ -1,6 +1,6 @@
-package com.ocrms.ocrmsbca.service.admin;
+package com.ocrms.ocrmsbca.service.role;
 
-import com.ocrms.ocrmsbca.dto.AdminDto;
+import com.ocrms.ocrmsbca.entity.role.Role;
 import com.ocrms.ocrmsbca.service.GenericCrudServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
  * @author CHHATRA SAUD
  * @product IntelliJ IDEA
  * @project ocrmsbca
- * @Date 04/07/2022
+ * @Date 06/07/2022
  */
 @Service
-public interface AdminService extends GenericCrudServiceImpl<AdminDto,Long> {
+public interface RoleService extends GenericCrudServiceImpl<Role,Long> {
 }

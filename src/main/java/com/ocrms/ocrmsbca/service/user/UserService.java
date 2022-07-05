@@ -1,6 +1,6 @@
 package com.ocrms.ocrmsbca.service.user;
 
-import com.ocrms.ocrmsbca.dto.UserRegisterDto;
+import com.ocrms.ocrmsbca.dto.UserDto;
 import com.ocrms.ocrmsbca.service.GenericCrudServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -11,5 +11,5 @@ import org.springframework.stereotype.Service;
  * @Date 04/07/2022
  */
 @Service
-public interface UserService extends GenericCrudServiceImpl<UserRegisterDto,Long> {
+public interface UserService extends GenericCrudServiceImpl<UserDto,Long> {
 }
