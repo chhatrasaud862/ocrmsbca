@@ -1,9 +1,6 @@
 package com.ocrms.ocrmsbca.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * @author CHHATRA SAUD
@@ -15,8 +12,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class AdminDto {
     private Long id;
+    private String name;
     private String email;
     private String password;
 }

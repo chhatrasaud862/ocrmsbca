@@ -1,7 +1,7 @@
 package com.ocrms.ocrmsbca.controller.user;
 
 import com.ocrms.ocrmsbca.dto.UserDto;
-import com.ocrms.ocrmsbca.service.user.UserService;
+import com.ocrms.ocrmsbca.service.impl.UserServiceImpl;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,22 +14,23 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    public UserController(UserService userService) {
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
-    @GetMapping("/u")
-    public String getUser(Model model)
-    {
-        model.addAttribute("user",userService.findAll());
-        return "user/userRegistration";
-    }
-
     @PostMapping
-  public String saveUser(@ModelAttribute UserDto userDto)  {
-       UserDto user=userService.save(userDto);
-       return "registration suceessfully";
+  public String saveUser(@ModelAttribute UserDto userDto, Model model)  {
+       try{
+           UserDto save=userService.save(userDto);
+           model.addAttribute("message","user register successfully");
+       }catch (Exception e)
+       {
+           model.addAttribute("message","user register failed !! try again");
+        e.printStackTrace();
+       }
+        model.addAttribute("userDto",userDto);
+       return "signupandlogin";
     }
 
 }

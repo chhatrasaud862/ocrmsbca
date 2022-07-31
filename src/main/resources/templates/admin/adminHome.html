@@ -6,24 +6,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <!----===== Boxicons CSS ===== -->
+    <div th:fragment="css_link">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    </div>
+    <div th:fragment="css">
     <link rel="stylesheet" type="text/css" href="/admin/adminHomeCss.css"/>
-    <title>Dashboard Sidebar Menu</title>
+    </div>
+    <title>Admin || Navbar</title>
 </head>
-
 <body>
+<div th:fragment="admin_navbar">
 <nav class="sidebar close">
     <header>
         <div class="image-text">
                 <span class="image">
-                    <img src="image/logo.png" alt="">
+                    <img src="image/admin_logo.jpg" alt="">
                 </span>
 
             <div class="text logo-text">
-                <span class="name">Codinglab</span>
-                <span class="profession">Web developer</span>
+                <span class="name">Admin</span>
             </div>
         </div>
 
@@ -55,38 +57,22 @@
 
                 <li class="nav-link">
                     <a href="#">
-                        <i class='bx bx-bell icon'></i>
-                        <span class="text nav-text">Approve Complain</span>
-                    </a>
-                </li>
-
-                <li class="nav-link">
-                    <a href="#">
                         <i class='bx bx-pie-chart-alt icon'></i>
-                        <span class="text nav-text">Pending Complain</span>
+                        <span class="text nav-text">Admin List</span>
                     </a>
                 </li>
-
                 <li class="nav-link">
-                    <a href="#">
-                        <i class='bx bx-heart icon'></i>
-                        <span class="text nav-text">Report</span>
-                    </a>
-                </li>
-
-                <li class="nav-link">
-                    <a href="#">
-                        <i class='bx bx-wallet icon'></i>
+                    <a th:href="@{/admin}">
+                        <i class='bx bx-user icon'></i>
                         <span class="text nav-text">Add Admin</span>
                     </a>
                 </li>
 
             </ul>
         </div>
-
         <div class="bottom-content">
-            <li class="">
-                <a href="#">
+            <li class=""sec:authorize="isAuthenticated()">
+                <a th:href="@{~/logout}">
                     <i class='bx bx-log-out icon'></i>
                     <span class="text nav-text">Logout</span>
                 </a>
@@ -108,12 +94,8 @@
     </div>
 
 </nav>
-<section class="home">
-    <div class="text">Dashboard Sidebar</div>
-</section>
-
 <script src="/admin/adminHomejs.js"></script>
-
+</div>
 </body>
 
 </html>

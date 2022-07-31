@@ -9,32 +9,26 @@
 </head>
 
 <body>
+<div th:replace="admin/adminHome::css_link"></div>
+<div th:replace="admin/adminHome::css"></div>
+<div th:replace="admin/adminHome::admin_navbar"></div>
 <div class="wrapper">
-    <h2>Registration</h2>
-    <form action="#">
+    <h2>Add Admin</h2>
+    <form th:action="@{/admin}" th:method="post" th:object="${adminDto}">
         <div class="input-box">
-            <input type="text" placeholder="Enter your name" required>
+            <input type="text" placeholder="Enter name" th:field="*{name}">
         </div>
         <div class="input-box">
-            <input type="text" placeholder="Enter your email" required>
+            <input type="text" placeholder="Enter email" th:field="*{email}">
         </div>
         <div class="input-box">
-            <input type="password" placeholder="Create password" required>
-        </div>
-        <div class="input-box">
-            <input type="password" placeholder="Confirm password" required>
-        </div>
-        <div class="policy">
-            <input type="checkbox">
-            <h3>I accept all terms & condition</h3>
+            <input type="password" placeholder="Enter password" th:field="*{password}">
         </div>
         <div class="input-box button">
-            <input type="Submit" value="Register Now">
-        </div>
-        <div class="text">
-            <h3>Already have an account? <a href="#">Login now</a></h3>
+            <input type="Submit" value="Register">
         </div>
     </form>
+    <h4 th:text="*{message}" style="color: #0624d7"></h4>
 </div>
 </body>
 

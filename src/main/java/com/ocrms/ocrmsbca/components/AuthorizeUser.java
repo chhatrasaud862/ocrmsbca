@@ -14,6 +14,7 @@ public class AuthorizeUser {
     private static User user;
     private static Admin admin;
     private static ERole eRole;
+
     public static User getUser() {
         return user;
     }

@@ -1,9 +1,6 @@
 package com.ocrms.ocrmsbca.entity.admin;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -18,11 +15,21 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="tbl_admin")
+@Builder
+@Table(name="tbl_admin" ,uniqueConstraints = {
+        @UniqueConstraint(name = "unique_Admin_email",columnNames = "email")
+})
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name",nullable = false)
+    private String name;
+
+    @Column(name="email",nullable = false)
     private String email;
+
+    @Column(name = "password",nullable = false)
     private String password;
 }

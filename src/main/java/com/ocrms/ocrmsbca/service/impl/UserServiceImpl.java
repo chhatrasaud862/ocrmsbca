@@ -10,7 +10,9 @@ import com.ocrms.ocrmsbca.service.user.UserService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -37,14 +39,13 @@ public class UserServiceImpl implements UserService {
         Role role=new Role();
         user.setId(userDto.getId());
         user.setName(userDto.getName());
-        user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
         user.setContact(userDto.getContact());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setRoles(user.getRoles());
         role.setId(userDto.getId());
         userRepository.save(user);
 
+        role.setName(userDto.getName());
         role.setEmail(userDto.getEmail());
         role.setPassword(passwordEncoder.encode(userDto.getPassword()));
         role.setRole(ERole.ROLE_USER);
@@ -54,13 +55,42 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> findAll() {
-        return null;
+        List<UserDto> userList = new ArrayList<>();
+        List<User> users = userRepository.findAll();
+        for (User user : users){
+            userList.add(UserDto.builder()
+                    .id(user.getId())
+                    .name(user.getName())
+                    .contact(user.getContact())
+                    .email(user.getEmail())
+                    .build());
+
+        }
+        return userList;
     }
 
     @Override
     public UserDto findById(Long aLong) {
-        return null;
+        User user = null;
+        Optional<User> optionalUser=userRepository.findById(aLong);
+        if (optionalUser.isPresent())
+        {
+            user=optionalUser.get();
+            return UserDto.builder()
+                    .id(user.getId())
+                    .name(user.getName())
+                    .contact(user.getContact())
+                    .email(user.getEmail())
+                    .build();
+        }
+        return UserDto.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .contact(user.getContact())
+                .email(user.getEmail())
+                .build();
     }
+
 
     @Override
     public void deleteById(Long aLong) {
@@ -70,3 +100,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findUserByEmail(email);
     }
 }
+
+
+

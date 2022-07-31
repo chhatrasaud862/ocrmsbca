@@ -11,8 +11,8 @@ import java.util.List;
  * @Date 04/07/2022
  */
 public interface GenericCrudServiceImpl<D, ID>{
-    D save(D d);
-    List<D> findAll();
-    D findById(ID id);
+    D save(D d) throws ParseException, IOException;
+    List<D> findAll() throws IOException;
+    D findById(ID id) throws IOException;
     void deleteById(ID id);
 }

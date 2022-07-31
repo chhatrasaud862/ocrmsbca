@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/user/userComplain.css"/>
+  <title>Add || Complain </title>
+</head>
+<body>
+<div th:replace="user/userHome::css_link"></div>
+<div th:replace="user/userHome::css"></div>
+<div th:replace="user/userHome::admin_navbar"></div>
+<div class="container">
+  <div class="title">Add Complain</div>
+  <div class="content">
+    <form th:action="@{/complain}" th:method="post" th:object="${complainDto}" enctype="multipart/form-data">
+      <div class="user-details">
+        <div class="input-box">
+          <span class="details">Address</span>
+          <input type="text" placeholder="Enter Address" th:field="*{address}">
+        </div>
+        <div class="input-box">
+          <label class="text-dark">Select crime</label>
+          <select name="todo status" th:field="*{crime}" class="form-select" aria-label="Default select example"required/>
+          <option value="">Select crime</option>
+          <th:block  th:each="crime : ${T(com.ocrms.ocrmsbca.Enum.ECrimeType).values()}">
+            <option
+                    th:value="${crime}"
+                    th:text="${crime}">
+            </option>
+          </th:block>
+          </select>
+        </div>
+        <div class="input-box">
+          <span class="details">Crime Date</span>
+          <input type="date" placeholder="mm-dd-yyyy" th:field="*{crimeDate}">
+        </div>
+        <div class="input-box">
+          <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+          <textarea class="form-control" th:field="*{description}" id="exampleFormControlTextarea1" rows="3"
+                    placeholder="enter the description"></textarea>
+        </div>
+        <div class="input-box">
+          <span class="details">Crime Sample</span>
+          <input type="file" placeholder="Enter crime sample" th:field="*{multipartFile}">
+        </div>
+      </div>
+      <div class="col-md-8" >
+        <input type="submit" class="btn btn-primary" value=" Save ">
+        <input type="reset" class="btn btn-danger" value=" Reset ">
+      </div>
+    </form>
+    <h4 th:text="*{message}" style="color: #0624d7"></h4>
+  </div>
+</div>
+</body>
+</html>

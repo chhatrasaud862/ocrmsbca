@@ -1,9 +1,7 @@
 package com.ocrms.ocrmsbca.entity.role;
 
 import com.ocrms.ocrmsbca.Enum.ERole;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,19 +11,31 @@ import javax.persistence.*;
  * @project ocrmsbca
  * @Date 05/07/2022
  */
-
+@Getter
+@Setter
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
-@Table(name= "roles")
+@Table(name= "roles",uniqueConstraints = {
+        @UniqueConstraint(name="unique_Role_email",columnNames = "email")
+})
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name",nullable = false)
+    private String name;
+
+    @Column(name="email",nullable = false)
     private String email;
+
+    @Column(name="password",nullable = false)
     private String password;
-    @Enumerated(EnumType.STRING)
+
     @Column(length = 20)
     private ERole role;
+
 }
