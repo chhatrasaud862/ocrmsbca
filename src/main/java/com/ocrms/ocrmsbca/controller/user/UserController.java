@@ -21,8 +21,9 @@ public class UserController {
     }
     @PostMapping
   public String saveUser(@ModelAttribute UserDto userDto, Model model)  {
-       try{
-           UserDto save=userService.save(userDto);
+        UserDto save=userService.save(userDto);
+        try{
+
            model.addAttribute("message","user register successfully");
        }catch (Exception e)
        {
@@ -30,7 +31,7 @@ public class UserController {
         e.printStackTrace();
        }
         model.addAttribute("userDto",userDto);
-       return "signupandlogin";
+       return "loginPage";
     }
 
 }

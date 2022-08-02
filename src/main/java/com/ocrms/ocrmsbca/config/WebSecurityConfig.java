@@ -44,6 +44,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/user/userHome",
                         "admin/adminHome **",
+                        "/user **",
+                        "/user/admin_logo.jpg",
+                        "/user/user_logo.png",
+                        "complain/complainList **",
                         "/user/addComplain**",
                         "admin/addAdminCss.css**",
                         "admin/adminHomeCss.css**",
@@ -51,7 +55,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "user/userComplain.css**",
                         "user/userHomeCss.css**",
                         "user/userHomejs.js**",
-                        "static/image/backgroundPhoto.jpg",
                         "/user/userRegisterAndLogin.css**",
                         "/login",
                         "signupandlogin**",

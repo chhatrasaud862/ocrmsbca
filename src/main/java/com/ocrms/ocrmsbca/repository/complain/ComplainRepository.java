@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Repository
 public interface ComplainRepository extends JpaRepository<Complain,Long> {
-    @Query(value = "SELECT * FROM user_complain u WHERE u.register_id = ?1 order by u.id", nativeQuery = true)
+    @Query(value = "SELECT * FROM tbl_complain u WHERE u.user_id = ?1 order by u.id", nativeQuery = true)
     List<Complain> getComplainList(Integer userId);
 
     @Query(value = "SELECT * FROM user_complain u WHERE u.register_id=?1 and u.complain_status=1",nativeQuery = true)

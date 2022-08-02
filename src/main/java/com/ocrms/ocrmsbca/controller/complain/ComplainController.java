@@ -47,4 +47,10 @@ public class ComplainController {
       model.addAttribute("complainDto",complainDto);
         return "user/addComplain";
     }
+
+    @GetMapping("/complainList")
+    public String complainList(Model model) throws IOException {
+        model.addAttribute("complainList",complainService.findAll());
+          return "user/complainLists";
+    }
 }
