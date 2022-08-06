@@ -104,4 +104,8 @@ public class ComplainServiceImpl implements ComplainService {
         complainRepository.deleteById(aLong);
 
     }
+    public List<Complain> getComplain()
+    {
+        return complainRepository.getComplain();
+    }
 }

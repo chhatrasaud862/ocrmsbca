@@ -29,9 +29,10 @@ public class UserController {
        {
            model.addAttribute("message","user register failed !! try again");
         e.printStackTrace();
+
        }
         model.addAttribute("userDto",userDto);
-       return "loginPage";
+       return "signupandlogin.html";
     }
 
 }

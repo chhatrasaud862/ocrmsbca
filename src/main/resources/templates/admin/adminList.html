@@ -60,7 +60,7 @@
         <th>Action</th>
     </tr>
     <tr th:each="admin,loop :${adminList}">
-        <th th:text="${loop.count}"></th>
+        <td th:text="${loop.count}"></td>
         <td th:text="${admin.name}"></td>
         <td th:text="${admin.email}"></td>
         <td>

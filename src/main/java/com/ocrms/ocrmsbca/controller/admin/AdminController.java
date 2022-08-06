@@ -2,6 +2,7 @@ package com.ocrms.ocrmsbca.controller.admin;
 
 import com.ocrms.ocrmsbca.dto.AdminDto;
 import com.ocrms.ocrmsbca.service.impl.AdminServiceImpl;
+import com.ocrms.ocrmsbca.service.impl.ComplainServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin")
 public class AdminController {
     private final AdminServiceImpl adminService;
+    private final ComplainServiceImpl complainService;
 
-    public AdminController(AdminServiceImpl adminService) {
+    public AdminController(AdminServiceImpl adminService, ComplainServiceImpl complainService) {
         this.adminService = adminService;
+        this.complainService = complainService;
     }
 
     @GetMapping
@@ -52,5 +55,11 @@ public class AdminController {
     {
         adminService.deleteById(id);
         return "admin/adminList";
+    }
+    @GetMapping("/complainList")
+    public String showComplain(Model model)
+    {
+        model.addAttribute("complainLists",complainService.getComplain());
+        return "admin/complainLists";
     }
 }

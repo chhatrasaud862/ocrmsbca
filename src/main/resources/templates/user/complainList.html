@@ -2,28 +2,29 @@
 <html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Admin || List</title>
+    <title>Complain List</title>
     <style>
+        p {
+            margin-left: 300px;
+            font-size: 20px;
+            color: blue;
+            margin-top: 50px;
+        }
+
         .demotbl {
             border: 0px solid #69899F;
             margin-left: 300px;
             margin-top: 50px;
         }
-        p{
-            margin-top: 50px;
-            size: 22px;
-            color: #0e4bf1;
-            margin-left: 300px;
-        }
 
         .demotbl th {
             padding: 15px;
             color: #fff;
-            text-shadow: 1px 1px 1px #568F23;
-            border-bottom: 3px solid #9ED929;
-            background-color: #9DD929;
-            background: -webkit-gradient( linear, left bottom, left top, color-stop(0.02, rgb(123, 192, 67)), color-stop(0.51, rgb(139, 198, 66)), color-stop(0.87, rgb(158, 217, 41)));
-            background: -moz-linear-gradient( center bottom, rgb(123, 192, 67) 3%, rgb(139, 198, 66) 52%, rgb(158, 217, 41) 88%);
+            text-shadow: 1px 1px 1px #2547a7;
+            border-bottom: 3px solid #3b29d9;
+            background-color: #4929d9;
+            background: -webkit-gradient( linear, left bottom, left top, color-stop(0.02, rgb(86, 67, 192)), color-stop(0.51, rgb(101, 66, 198)), color-stop(0.87, rgb(59, 41, 217)));
+            background: -moz-linear-gradient( center bottom, rgb(67, 86, 192) 3%, rgb(86, 66, 198) 52%, rgb(73, 41, 217) 88%);
             -webkit-border-top-left-radius: 5px;
             -webkit-border-top-right-radius: 5px;
             -moz-border-radius: 5px 5px 0px 0px;
@@ -58,26 +59,20 @@
         <th>Crime Sample</th>
         <th>Crime Date</th>
         <th>Complain Date</th>
-        <th>Complain Address</th>
-        <th>Complain Status</th>
         <th>Crime Type</th>
+        <th>Address</th>
+        <th>Complain Status</th>
         <th>Description</th>
-        <th>Action</th>
     </tr>
     <tr th:each="complain,loop :${complainList}">
-        <th th:text="${loop.count}"></th>
-        <td th:src="${complain.photo}" height="100px" width="100px"></td>
+        <td th:text="${loop.count}"></td>
+        <td> <img src="${complain.photo}"></td>
         <td th:text="${complain.crimeDate}"></td>
         <td th:text="${complain.complainDate}"></td>
+        <td th:text="${complain.crime}"></td>
         <td th:text="${complain.address}"></td>
         <td th:text="${complain.complainStatus}"></td>
-        <td th:text="${complain.crime}"></td>
         <td th:text="${complain.description}"></td>
-        <td>
-            <a th:href="@{~/complain/update/}+${complain.id}">
-                <botton class="btn btn-primary">Update</botton>
-            </a>
-        </td>
     </tr>
 </table>
 </body>

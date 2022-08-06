@@ -1,6 +1,7 @@
 package com.ocrms.ocrmsbca.repository.complain;
 
 import com.ocrms.ocrmsbca.entity.complain.Complain;
+import com.ocrms.ocrmsbca.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -35,4 +36,6 @@ public interface ComplainRepository extends JpaRepository<Complain,Long> {
 
     @Query(value = "select uc.register_id from user_complain uc where id=uc.id",nativeQuery = true)
     List<Complain>getRegister(Integer userId);
+    @Query(value = "select tu.name,tu.contact,tc.crime_date,tc.complain_date,tc.address,tc.crime_type,tc.description,tc.complain_status from tbl_complain tc inner join  tbl_user tu  on tc.user_id = tu.id",nativeQuery = true)
+    List<Complain> getComplain();
 }
