@@ -1,7 +1,10 @@
 package com.ocrms.ocrmsbca.controller.complain;
 
 import com.ocrms.ocrmsbca.dto.ComplainDto;
-import com.ocrms.ocrmsbca.service.complain.ComplainService;
+import com.ocrms.ocrmsbca.entity.complain.Complain;
+import com.ocrms.ocrmsbca.entity.user.User;
+import com.ocrms.ocrmsbca.repository.complain.ComplainRepository;
+import com.ocrms.ocrmsbca.repository.user.UserRepository;
 import com.ocrms.ocrmsbca.service.impl.ComplainServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.text.ParseException;
+import java.util.List;
 
 /**
  * @author CHHATRA SAUD
@@ -22,9 +27,14 @@ import java.text.ParseException;
 @Controller
 @RequestMapping("/complain")
 public class ComplainController {
+
+    private final ComplainRepository complainRepository;
+    private  final UserRepository userRepository;
     private final ComplainServiceImpl complainService;
 
-    public ComplainController(ComplainServiceImpl complainService) {
+    public ComplainController(ComplainRepository complainRepository, UserRepository userRepository, ComplainServiceImpl complainService) {
+        this.complainRepository = complainRepository;
+        this.userRepository = userRepository;
         this.complainService = complainService;
     }
 
@@ -35,7 +45,7 @@ public class ComplainController {
         return "user/addComplain";
     }
     @PostMapping
-   public String saveComplain(@ModelAttribute ComplainDto complainDto,Model model) throws ParseException, IOException {
+   public String saveComplain(@ModelAttribute ComplainDto complainDto,Model model,Principal principal) throws ParseException, IOException {
         try{
             ComplainDto save=complainService.save(complainDto);
             model.addAttribute("message","Complain added successfully");
@@ -49,8 +59,11 @@ public class ComplainController {
     }
 
     @GetMapping("/complainList")
-    public String complainList(Model model) throws IOException {
-        model.addAttribute("complainList",complainService.findAll());
+    public String complainList(Model model, Principal principal) throws IOException {
+        String userName=principal.getName();
+        User user=userRepository.findUserByEmail(userName);
+        List<Complain> complainList=this.complainRepository.getComplainList(user.getId());
+       model.addAttribute("complainList",complainList);
           return "user/complainList";
     }
 }

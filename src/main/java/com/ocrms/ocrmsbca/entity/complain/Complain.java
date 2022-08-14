@@ -53,5 +53,4 @@ public class Complain {
             foreignKey = @ForeignKey(name = "Fk_user_complaint"))
     private User user;
 
-
 }

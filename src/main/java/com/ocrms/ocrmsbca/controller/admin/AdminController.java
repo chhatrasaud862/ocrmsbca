@@ -1,11 +1,19 @@
 package com.ocrms.ocrmsbca.controller.admin;
 
+import com.ocrms.ocrmsbca.Enum.EComplainStatus;
 import com.ocrms.ocrmsbca.dto.AdminDto;
+import com.ocrms.ocrmsbca.dto.ComplainDto;
 import com.ocrms.ocrmsbca.service.impl.AdminServiceImpl;
 import com.ocrms.ocrmsbca.service.impl.ComplainServiceImpl;
+import com.ocrms.ocrmsbca.service.impl.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author CHHATRA SAUD
@@ -18,10 +26,24 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
     private final AdminServiceImpl adminService;
     private final ComplainServiceImpl complainService;
+    private final UserServiceImpl userService;
 
-    public AdminController(AdminServiceImpl adminService, ComplainServiceImpl complainService) {
+
+    public AdminController(AdminServiceImpl adminService, ComplainServiceImpl complainService, UserServiceImpl userService) {
         this.adminService = adminService;
         this.complainService = complainService;
+        this.userService = userService;
+    }
+
+    @RequestMapping("/landing")
+    private String landingPage(){
+        return "admin/adminHome";
+    }
+
+    @GetMapping("/dashboard")
+    public String dashboard(){
+        return "admin/dashboard";
+
     }
 
     @GetMapping
@@ -56,10 +78,18 @@ public class AdminController {
         adminService.deleteById(id);
         return "admin/adminList";
     }
+
     @GetMapping("/complainList")
-    public String showComplain(Model model)
+    public String showCrime(Model model) throws IOException
     {
-        model.addAttribute("complainLists",complainService.getComplain());
-        return "admin/complainLists";
+        model.addAttribute("complainList",complainService.findAllComplain());
+        return "admin/complainList";
+    }
+    @GetMapping("/approve/{id}")
+    public String verifyPage(@PathVariable("id")Long id) throws ParseException, IOException {
+        ComplainDto complainDto=complainService.findById(id);
+        complainDto.setComplainStatus(EComplainStatus.APPROVE);
+        complainService.save(complainDto);
+        return "admin/complainList";
     }
 }

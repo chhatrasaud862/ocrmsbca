@@ -1,6 +1,5 @@
 package com.ocrms.ocrmsbca.entity.role;
 
-import com.ocrms.ocrmsbca.Enum.ERole;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,6 +35,6 @@ public class Role {
     private String password;
 
     @Column(length = 20)
-    private ERole role;
+    private String role;
 
 }

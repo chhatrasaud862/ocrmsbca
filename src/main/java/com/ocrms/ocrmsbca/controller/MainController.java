@@ -1,15 +1,17 @@
 package com.ocrms.ocrmsbca.controller;
 
-import com.ocrms.ocrmsbca.components.AuthorizeUser;
 import com.ocrms.ocrmsbca.dto.UserDto;
-import com.ocrms.ocrmsbca.entity.admin.Admin;
-import com.ocrms.ocrmsbca.entity.user.User;
-import com.ocrms.ocrmsbca.service.impl.AdminServiceImpl;
 import com.ocrms.ocrmsbca.service.impl.UserServiceImpl;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 
 /**
@@ -21,38 +23,56 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/")
 public class MainController {
+
     private final UserServiceImpl userService;
-    private final AdminServiceImpl adminService;
 
-    public MainController(UserServiceImpl userService, AdminServiceImpl adminService) {
+    public MainController(UserServiceImpl userService) {
         this.userService = userService;
-        this.adminService = adminService;
     }
-
 
     @GetMapping
     public String openUserHomePage()
     {
-        if (AuthorizeUser.getUserStatus().ordinal()==0)
-        {
-            User user=userService.findUserByEmail(AuthorizeUser.getUser().getEmail());
-            AuthorizeUser.setUser(null);
-            //assign again
-            AuthorizeUser.setUser(user);
-            return "user/userHome";
-        }else if (AuthorizeUser.getUserStatus().ordinal() == 1){
-            Admin admin=adminService.findAdminByEmail(AuthorizeUser.getAdmin().getEmail());
-            AuthorizeUser.setAdmin(null);
-            AuthorizeUser.setAdmin(admin);
-            return "admin/adminHome";
-        }else {
-            return null;
+       return "home";
+    }
+    @RequestMapping(value = "/signin",method= RequestMethod.GET)
+    public String openLogin()
+    {
+        return "login";
+    }
+
+    @RequestMapping("/success")
+    public void loginPageRedirect(HttpServletRequest request, HttpServletResponse response, Authentication authResult) throws IOException, ServletException {
+
+        String role =  authResult.getAuthorities().toString();
+
+        if(role.contains("ROLE_USER")){
+            response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/user/landing"));
+        }
+        else if(role.contains("ROLE_ADMIN")) {
+            response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/admin/landing"));
         }
     }
-    @GetMapping("/login")
-    public String openLogin(Model model)
-    {
+
+    @GetMapping("/signup")
+    public String getSignup(Model model){
         model.addAttribute("userDto",new UserDto());
-        return "signupandlogin";
+        return "user/signup";
+    }
+
+    @PostMapping("/save")
+    public String saveUser(@ModelAttribute UserDto userDto, Model model)  {
+        UserDto save=userService.save(userDto);
+        try{
+
+            model.addAttribute("message","user register successfully");
+        }catch (Exception e)
+        {
+            model.addAttribute("message","user register failed !! try again");
+            e.printStackTrace();
+
+        }
+        model.addAttribute("userDto",userDto);
+        return "user/signup";
     }
 }

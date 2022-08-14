@@ -11,15 +11,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
-<div th:replace="user/userHome::css_link"></div>
-<div th:replace="user/userHome::css"></div>
-<div th:replace="user/userHome::admin_navbar"></div>
-    <div class="card-body">
+<div th:replace="admin/adminHome::css_link"></div>
+<div th:replace="admin/adminHome::css"></div>
+<div th:replace="admin/adminHome::admin_navbar"></div>
+    <div class="card-bod">
         <h1 class="text-center">Complain List</h1>
-        <table class="table table-striped">
+        <table class="table">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">ID</th>
+                <th scope="col">SN</th>
+                <th scope="col">Complain By</th>
                 <th scope="col">Address</th>
                 <th scope="col">Crime Type</th>
                 <th scope="col">Crime Date</th>
@@ -29,15 +30,17 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="complain : ${complainList}">
-                <th scope="row" th:text="${'OCRMS'+complain.id}"></th>
-                <td th:text="${complain.address}"></td>
-                <td th:text="${complain.crime}"></td>
-                <td th:text="${complain.crimeDate}"></td>
-                <td th:text="${complain.complainDate}"></td>
-                <td th:text="${complain.complainStatus}"></td>
+            <tr th:each="admin : ${complainList}">
+                <th scope="row" th:text="${'OCRMS'+admin.id}"></th>
+                <td th:text="${admin.getUser().name}"></td>
+                <td th:text="${admin.address}"></td>
+                <td th:text="${admin.crime}"></td>
+                <td th:text="${admin.crimeDate}"></td>
+                <td th:text="${admin.complainDate}"></td>
+                <td th:text="${admin.complainStatus}"></td>
                 <td>
-                    <button type="button" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn btn-success">Accept</button>
+                    <button type="button" class="btn btn-warning">Reject</button>
                 </td>
             </tr>
             </tbody>

@@ -1,11 +1,8 @@
 package com.ocrms.ocrmsbca.entity.user;
 
-import com.ocrms.ocrmsbca.entity.role.Role;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author CHHATRA SAUD
@@ -38,4 +35,6 @@ public class User {
 
     @Column(name="password",nullable = false)
     private String password;
+
+
 }

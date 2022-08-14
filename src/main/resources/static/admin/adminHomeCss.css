@@ -326,3 +326,11 @@ body.dark .switch::before {
 body.dark .home .text {
     color: var(--text-color);
 }
+.card-body{
+    margin-left: 30%;
+    margin-right: 15%;
+}
+.card-bod{
+    margin-left: 20%;
+    margin-right: 1%;
+}

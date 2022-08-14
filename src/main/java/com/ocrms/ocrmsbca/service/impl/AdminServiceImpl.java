@@ -1,19 +1,15 @@
 package com.ocrms.ocrmsbca.service.impl;
 
-import com.ocrms.ocrmsbca.Enum.ERole;
 import com.ocrms.ocrmsbca.dto.AdminDto;
 import com.ocrms.ocrmsbca.entity.admin.Admin;
 import com.ocrms.ocrmsbca.entity.role.Role;
 import com.ocrms.ocrmsbca.repository.admin.AdminRepository;
 import com.ocrms.ocrmsbca.repository.role.RoleRepository;
 import com.ocrms.ocrmsbca.service.admin.AdminService;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -48,7 +44,7 @@ public class AdminServiceImpl implements AdminService {
         role.setName(adminDto.getName());
         role.setEmail(adminDto.getEmail());
         role.setPassword(passwordEncoder.encode(adminDto.getPassword()));
-        role.setRole(ERole.ROLE_ADMIN);
+        role.setRole("ROLE_ADMIN");
         roleRepository.save(role);
         return adminDto;
     }
@@ -79,5 +75,10 @@ public class AdminServiceImpl implements AdminService {
     }
     public Admin findAdminByEmail(String email){
         return adminRepository.findAdminRegisterByEmail(email);
+    }
+
+    public List<Object> getTotalComplain(){
+        List<Object> totalComplain=adminRepository.getComplain();
+        return totalComplain;
     }
 }
