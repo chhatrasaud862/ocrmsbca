@@ -4,6 +4,7 @@ import com.ocrms.ocrmsbca.entity.complain.Complain;
 import com.ocrms.ocrmsbca.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,8 +17,8 @@ import java.util.List;
  */
 @Repository
 public interface ComplainRepository extends JpaRepository<Complain,Long> {
-    @Query(value = "SELECT * FROM tbl_complain u WHERE u.user_id = ?1 order by u.id", nativeQuery = true)
-    List<Complain> getComplainList(Integer userId);
+    @Query("FROM Complain as c WHERE c.user.id=:userId")
+    public List<Complain> getComplainList(@Param("userId") Long userId);
 
     @Query(value = "SELECT * FROM user_complain u WHERE u.register_id=?1 and u.complain_status=1",nativeQuery = true)
     List<Complain> getVerifiedStatus(Integer userId);
@@ -31,11 +32,10 @@ public interface ComplainRepository extends JpaRepository<Complain,Long> {
     @Query(value = "select count(uc.complain_status)from user_complain uc where uc.complain_status=1",nativeQuery = true)
     String getApproveComplain();
 
-    @Query(value = "select * from user_complain u  order by u.id",nativeQuery = true)
+    @Query(value = "select * from tbl_complain u  order by u.id",nativeQuery = true)
     List<Complain> getComplainDetails();
 
-    @Query(value = "select uc.register_id from user_complain uc where id=uc.id",nativeQuery = true)
-    List<Complain>getRegister(Integer userId);
-    @Query(value = "select tu.name,tu.contact,tc.crime_date,tc.complain_date,tc.address,tc.crime_type,tc.description,tc.complain_status from tbl_complain tc inner join  tbl_user tu  on tc.user_id = tu.id",nativeQuery = true)
-    List<Complain> getComplain();
+    @Query(value = "select tc.user from tbl_user tc where id=tc.id",nativeQuery = true)
+    List<Complain>getUser(Integer userId);
+
 }

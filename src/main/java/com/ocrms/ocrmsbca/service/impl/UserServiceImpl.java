@@ -1,6 +1,5 @@
 package com.ocrms.ocrmsbca.service.impl;
 
-import com.ocrms.ocrmsbca.Enum.ERole;
 import com.ocrms.ocrmsbca.dto.UserDto;
 import com.ocrms.ocrmsbca.entity.role.Role;
 import com.ocrms.ocrmsbca.entity.user.User;
@@ -48,7 +47,7 @@ public class UserServiceImpl implements UserService {
         role.setName(userDto.getName());
         role.setEmail(userDto.getEmail());
         role.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        role.setRole(ERole.ROLE_USER);
+        role.setRole("ROLE_USER");
         roleRepository.save(role);
      return userDto;
     }
