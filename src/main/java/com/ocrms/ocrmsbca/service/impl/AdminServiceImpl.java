@@ -1,7 +1,9 @@
 package com.ocrms.ocrmsbca.service.impl;
 
 import com.ocrms.ocrmsbca.dto.AdminDto;
+import com.ocrms.ocrmsbca.dto.ComplainDto;
 import com.ocrms.ocrmsbca.entity.admin.Admin;
+import com.ocrms.ocrmsbca.entity.complain.Complain;
 import com.ocrms.ocrmsbca.entity.role.Role;
 import com.ocrms.ocrmsbca.repository.admin.AdminRepository;
 import com.ocrms.ocrmsbca.repository.role.RoleRepository;
@@ -9,8 +11,10 @@ import com.ocrms.ocrmsbca.service.admin.AdminService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author CHHATRA SAUD
@@ -66,11 +70,23 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public AdminDto findById(Long aLong) {
+        Admin admin;
+        Optional<Admin> optionalAdmin = adminRepository.findById(aLong);
+        if (optionalAdmin.isPresent()) {
+            admin = optionalAdmin.get();
+            return AdminDto.builder()
+                    .id(admin.getId())
+                    .name(admin.getName())
+                    .email(admin.getEmail())
+                    .password(admin.getPassword())
+                    .build();
+        }
         return null;
     }
 
     @Override
     public void deleteById(Long aLong) {
+        adminRepository.deleteById(aLong);
 
     }
     public Admin findAdminByEmail(String email){
@@ -81,4 +97,5 @@ public class AdminServiceImpl implements AdminService {
         List<Object> totalComplain=adminRepository.getComplain();
         return totalComplain;
     }
+
 }

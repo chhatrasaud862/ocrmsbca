@@ -20,7 +20,8 @@
             <thead class="thead-dark">
             <tr>
                 <th scope="col">SN</th>
-                <th scope="col">Complain By</th>
+               <!-- <th scope="col">Complain By</th>-->
+               <!-- <th scope="col">Crime Sample</th>-->
                 <th scope="col">Address</th>
                 <th scope="col">Crime Type</th>
                 <th scope="col">Crime Date</th>
@@ -32,15 +33,20 @@
             <tbody>
             <tr th:each="admin : ${complainList}">
                 <th scope="row" th:text="${'OCRMS'+admin.id}"></th>
-                <td th:text="${admin.getUser().name}"></td>
+                <!--<td th:text="${admin.getUser().name}"></td>-->
+                <!--<td><img th:src="${photo}"></td>-->
                 <td th:text="${admin.address}"></td>
                 <td th:text="${admin.crime}"></td>
                 <td th:text="${admin.crimeDate}"></td>
                 <td th:text="${admin.complainDate}"></td>
                 <td th:text="${admin.complainStatus}"></td>
                 <td>
+                    <a th:href="@{~/admin/approve/}+${admin.id}">
                     <button type="button" class="btn btn-success">Accept</button>
+                    </a>
+                <!--    <a th:href="@{~/admin/delete/}+${complain.id}">-->
                     <button type="button" class="btn btn-warning">Reject</button>
+                  <!--  </a>-->
                 </td>
             </tr>
             </tbody>

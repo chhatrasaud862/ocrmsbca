@@ -5,24 +5,18 @@ import com.ocrms.ocrmsbca.components.FileStorageComponent;
 import com.ocrms.ocrmsbca.dto.ComplainDto;
 import com.ocrms.ocrmsbca.dto.ResponseDto;
 import com.ocrms.ocrmsbca.entity.complain.Complain;
-import com.ocrms.ocrmsbca.entity.user.User;
 import com.ocrms.ocrmsbca.repository.complain.ComplainRepository;
 import com.ocrms.ocrmsbca.repository.user.UserRepository;
 import com.ocrms.ocrmsbca.service.complain.ComplainService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 /**
  * @author CHHATRA SAUD
@@ -40,7 +34,6 @@ public class ComplainServiceImpl implements ComplainService {
         this.fileStorageComponent = fileStorageComponent;
         this.userRepository = userRepository;
     }
-
     @Override
     public ComplainDto save(ComplainDto complainDto) throws ParseException, IOException {
         ResponseDto responseDto = fileStorageComponent.storeFile(complainDto.getMultipartFile());
@@ -58,6 +51,7 @@ public class ComplainServiceImpl implements ComplainService {
         }
         complain.setDescription(complainDto.getDescription());
         complain.setPhoto(responseDto.getMessage());
+        complain.setUser(complainDto.getUser());
         complainRepository.save(complain);
 
         return complainDto;
@@ -101,6 +95,7 @@ public class ComplainServiceImpl implements ComplainService {
                     .photo(fileStorageComponent.base64Encoded(complain.getPhoto()))
                     .user(complain.getUser())
                     .build();
+
         }
         return null;
     }

@@ -327,8 +327,8 @@ body.dark .home .text {
     color: var(--text-color);
 }
 .card-body{
-    margin-left: 30%;
-    margin-right: 15%;
+    margin-left: 25%;
+    margin-right: 5%;
 }
 .card-bod{
     margin-left: 20%;

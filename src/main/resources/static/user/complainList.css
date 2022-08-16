@@ -11,7 +11,7 @@ body {
     display: flex;
     justify-content: center;
     font-family: 'Roboto', sans-serif;
-    background-color: #adacac;
+    background: linear-gradient(135deg, #71b7e6, #9b59b6)
 }
 
 table {

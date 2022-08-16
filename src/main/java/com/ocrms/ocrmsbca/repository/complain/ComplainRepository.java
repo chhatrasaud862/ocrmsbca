@@ -3,10 +3,12 @@ package com.ocrms.ocrmsbca.repository.complain;
 import com.ocrms.ocrmsbca.entity.complain.Complain;
 import com.ocrms.ocrmsbca.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -19,6 +21,12 @@ import java.util.List;
 public interface ComplainRepository extends JpaRepository<Complain,Long> {
     @Query("FROM Complain as c WHERE c.user.id=:userId")
     public List<Complain> getComplainList(@Param("userId") Long userId);
+
+   /* @Transactional
+    @Modifying
+    @Query("update Complain set complainStatus=1 where id=:compalinId")
+    void setApproveStatus(@Param("complainId") Long complainId);*/
+
 
     @Query(value = "SELECT * FROM user_complain u WHERE u.register_id=?1 and u.complain_status=1",nativeQuery = true)
     List<Complain> getVerifiedStatus(Integer userId);

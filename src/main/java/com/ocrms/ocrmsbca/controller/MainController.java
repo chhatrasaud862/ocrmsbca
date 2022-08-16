@@ -57,7 +57,7 @@ public class MainController {
     @GetMapping("/signup")
     public String getSignup(Model model){
         model.addAttribute("userDto",new UserDto());
-        return "user/signup";
+        return "user/signupUser";
     }
 
     @PostMapping("/save")
@@ -73,6 +73,6 @@ public class MainController {
 
         }
         model.addAttribute("userDto",userDto);
-        return "user/signup";
+        return "user/signupUser";
     }
 }

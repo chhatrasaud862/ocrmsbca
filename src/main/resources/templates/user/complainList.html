@@ -37,7 +37,9 @@
                 <td th:text="${complain.complainDate}"></td>
                 <td th:text="${complain.complainStatus}"></td>
                 <td>
+                    <a th:href="@{~/complain/update/}+${complain.id}">
                     <button type="button" class="btn btn-primary">Update</button>
+                    </a>
                 </td>
             </tr>
             </tbody>

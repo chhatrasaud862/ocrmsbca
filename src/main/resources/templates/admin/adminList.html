@@ -31,8 +31,12 @@
                 <td th:text="${a.name}"></td>
                 <td th:text="${a.email}"></td>
                 <td>
+                    <a th:href="@{~/admin/update/}+${a.id}">
                     <button type="button" class="btn btn-primary">Update</button>
+                    </a>
+                    <a th:href="@{~/admin/delete/}+${a.id}">
                     <button type="button" class="btn btn-danger">Delete</button>
+                    </a>
                 </td>
             </tr>
             </tbody>

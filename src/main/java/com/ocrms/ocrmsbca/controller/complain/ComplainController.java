@@ -8,11 +8,11 @@ import com.ocrms.ocrmsbca.repository.user.UserRepository;
 import com.ocrms.ocrmsbca.service.impl.ComplainServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
@@ -42,11 +42,14 @@ public class ComplainController {
     public String complainPage(Model model)
     {
         model.addAttribute("complainDto",new ComplainDto());
-        return "user/addComplain";
+        return "user/complainAdd";
     }
     @PostMapping
    public String saveComplain(@ModelAttribute ComplainDto complainDto,Model model,Principal principal) throws ParseException, IOException {
         try{
+            String name=principal.getName();
+            User user=userRepository.findUserByEmail(name);
+            complainDto.setUser(user);
             ComplainDto save=complainService.save(complainDto);
             model.addAttribute("message","Complain added successfully");
         }catch (Exception e)
@@ -55,7 +58,7 @@ public class ComplainController {
             e.printStackTrace();
         }
       model.addAttribute("complainDto",complainDto);
-        return "user/addComplain";
+        return "user/complainAdd";
     }
 
     @GetMapping("/complainList")
@@ -65,5 +68,12 @@ public class ComplainController {
         List<Complain> complainList=this.complainRepository.getComplainList(user.getId());
        model.addAttribute("complainList",complainList);
           return "user/complainList";
+    }
+    @GetMapping("/update/{id}")
+    public String updateComplain(@PathVariable("id") Long id, Model model,
+                                 RedirectAttributes redirectAttributes) throws IOException {
+        ComplainDto complainDto=complainService.findById(id);
+        model.addAttribute("complainDto",complainDto);
+        return "user/complainUpdatePage";
     }
 }
