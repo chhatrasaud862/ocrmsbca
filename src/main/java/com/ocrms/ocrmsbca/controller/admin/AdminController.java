@@ -63,7 +63,7 @@ public class AdminController {
     public String showAddAdmin(Model model)
     {
         model.addAttribute("adminDto",new AdminDto());
-        return "admin/addAdmin";
+        return "admin/adminAdd";
     }
     @PostMapping
     public String saveAdmin(@ModelAttribute AdminDto adminDto,Model model)
@@ -77,7 +77,7 @@ public class AdminController {
             e.printStackTrace();
         }
        model.addAttribute("adminDto",adminDto);
-        return "admin/addAdmin";
+        return "admin/adminAdd";
     }
     @GetMapping("/adminList")
     public String getAdminList(Model model)
