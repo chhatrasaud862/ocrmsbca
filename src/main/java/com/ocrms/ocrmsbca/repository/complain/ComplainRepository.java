@@ -2,6 +2,9 @@ package com.ocrms.ocrmsbca.repository.complain;
 
 import com.ocrms.ocrmsbca.entity.complain.Complain;
 import com.ocrms.ocrmsbca.entity.user.User;
+import org.hibernate.sql.Update;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,7 +23,14 @@ import java.util.List;
 @Repository
 public interface ComplainRepository extends JpaRepository<Complain,Long> {
     @Query("FROM Complain as c WHERE c.user.id=:userId")
-    public List<Complain> getComplainList(@Param("userId") Long userId);
+    public Page<Complain> getComplainList(@Param("userId") Long userId, Pageable pageable);
+
+    @Query( value = "select * from tbl_complain order by id",nativeQuery = true)
+    public Page<Complain> getTotalComplain(Pageable pageable);
+
+    @Modifying(flushAutomatically = true)
+    @Query("update Complain set complainStatus=1 where id=:userId")
+    public void updateComplainStatus(@Param("userId") Long userId);
 
    /* @Transactional
     @Modifying

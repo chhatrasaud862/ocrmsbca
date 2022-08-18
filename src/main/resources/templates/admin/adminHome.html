@@ -18,15 +18,14 @@
 <div th:fragment="admin_navbar">
 <nav class="fixed-leaft sidebar close">
     <header>
-        <div class="image-text">
+      <!--  <div class="image-text">
                 <span class="image">
                     <img src="image/admin_logo.jpg" alt="">
                 </span>
-
+        </div>-->
             <div class="text logo-text">
-                <span class="name">Admin</span>
+                <span class="name" style="font-size: 20px">Admin</span>
             </div>
-        </div>
 
         <i class='bx bx-chevron-right toggle'></i>
     </header>
@@ -48,7 +47,7 @@
                 </li>
 
                 <li class="nav-link">
-                    <a th:href="@{/admin/complainList}">
+                    <a th:href="@{/admin/complainList/0}">
                         <i class='bx bx-bar-chart-alt-2 icon'></i>
                         <span class="text nav-text">Show Complain</span>
                     </a>

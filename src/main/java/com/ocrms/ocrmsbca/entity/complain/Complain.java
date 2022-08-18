@@ -46,8 +46,9 @@ public class Complain {
     @Column(name="description",nullable = false)
     private String description;
 
-    @Column(name="crime_sample")
-    private String photo;
+   /* @Column(name="crime_sample")
+    private String photo;*/
+
     @ManyToOne
     @JoinColumn(name="user_id",referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "Fk_user_complaint"))

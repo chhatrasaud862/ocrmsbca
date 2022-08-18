@@ -17,9 +17,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name= "roles",uniqueConstraints = {
-        @UniqueConstraint(name="unique_Role_email",columnNames = "email")
-})
+@Table(name= "roles")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

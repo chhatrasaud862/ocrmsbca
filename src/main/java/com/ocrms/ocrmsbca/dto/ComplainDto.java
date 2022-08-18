@@ -28,6 +28,6 @@ public class ComplainDto {
     private EComplainStatus complainStatus;
     private User user;
     private String description;
-    private String photo;
-    private MultipartFile multipartFile;
+   /* private String photo;
+    private MultipartFile multipartFile;*/
 }

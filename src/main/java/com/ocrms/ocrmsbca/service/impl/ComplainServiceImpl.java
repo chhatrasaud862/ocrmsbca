@@ -36,8 +36,9 @@ public class ComplainServiceImpl implements ComplainService {
     }
     @Override
     public ComplainDto save(ComplainDto complainDto) throws ParseException, IOException {
-        ResponseDto responseDto = fileStorageComponent.storeFile(complainDto.getMultipartFile());
         Complain complain = new Complain();
+       /* ResponseDto responseDto = fileStorageComponent.storeFile(complainDto.getMultipartFile());
+        if (responseDto.isStatus()) {*/
         complain.setId(complainDto.getId());
         complain.setAddress(complainDto.getAddress());
         complain.setCrime(complainDto.getCrime());
@@ -50,10 +51,10 @@ public class ComplainServiceImpl implements ComplainService {
             complain.setUser(complainDto.getUser());
         }
         complain.setDescription(complainDto.getDescription());
-        complain.setPhoto(responseDto.getMessage());
+        /*  complain.setPhoto(responseDto.getMessage());*/
         complain.setUser(complainDto.getUser());
         complainRepository.save(complain);
-
+   /* }*/
         return complainDto;
     }
 
@@ -92,7 +93,7 @@ public class ComplainServiceImpl implements ComplainService {
                     .complainStatus(complain.getComplainStatus())
                     .complainDate(complain.getComplainDate())
                     .description(complain.getDescription())
-                    .photo(fileStorageComponent.base64Encoded(complain.getPhoto()))
+                /*    .photo(fileStorageComponent.base64Encoded(complain.getPhoto()))*/
                     .user(complain.getUser())
                     .build();
 

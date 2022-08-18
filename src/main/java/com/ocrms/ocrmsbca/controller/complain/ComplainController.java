@@ -6,6 +6,9 @@ import com.ocrms.ocrmsbca.entity.user.User;
 import com.ocrms.ocrmsbca.repository.complain.ComplainRepository;
 import com.ocrms.ocrmsbca.repository.user.UserRepository;
 import com.ocrms.ocrmsbca.service.impl.ComplainServiceImpl;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -61,19 +64,25 @@ public class ComplainController {
         return "user/complainAdd";
     }
 
-    @GetMapping("/complainList")
-    public String complainList(Model model, Principal principal) throws IOException {
+    @GetMapping("/complainList/{page}")
+    public String complainList(@PathVariable("page") Integer page, Model model, Principal principal) throws IOException {
+        //get user id
         String userName=principal.getName();
         User user=userRepository.findUserByEmail(userName);
-        List<Complain> complainList=this.complainRepository.getComplainList(user.getId());
-       model.addAttribute("complainList",complainList);
-          return "user/complainList";
+        //pageable
+        Pageable pageable= PageRequest.of(page,5);
+        Page<Complain> complainList=this.complainRepository.getComplainList(user.getId(),pageable);
+       //return
+        model.addAttribute("complainList",complainList);
+        model.addAttribute("currentPage",page);
+        model.addAttribute("totalPage",complainList.getTotalPages());
+          return "user/listOfComplain";
     }
     @GetMapping("/update/{id}")
     public String updateComplain(@PathVariable("id") Long id, Model model,
                                  RedirectAttributes redirectAttributes) throws IOException {
         ComplainDto complainDto=complainService.findById(id);
         model.addAttribute("complainDto",complainDto);
-        return "user/complainUpdatePage";
+        return "redirect:/complain";
     }
 }
