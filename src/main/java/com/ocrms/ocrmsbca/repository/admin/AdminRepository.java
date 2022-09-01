@@ -20,4 +20,5 @@ public interface AdminRepository extends JpaRepository<Admin,Long> {
 
     @Query(value = "select tu.name,tu.contact,tc.crime_date,tc.complain_date,tc.address,tc.crime_type,tc.description,tc.complain_status from tbl_complain tc inner join  tbl_user tu  on tc.user_id = tu.id",nativeQuery = true)
     List<Object> getComplain();
+
 }

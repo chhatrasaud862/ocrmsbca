@@ -63,8 +63,8 @@ public class AdminController {
     @GetMapping("/addAdmin")
     public String showAddAdmin(Model model)
     {
-        model.addAttribute("adminDto",new AdminDto());
-        return "admin/adminAdd";
+         model.addAttribute("adminDto",new AdminDto());
+         return "admin/adminAdd";
     }
     @PostMapping
     public String saveAdmin(@ModelAttribute AdminDto adminDto,Model model)
@@ -123,25 +123,11 @@ public class AdminController {
     }
 
     @GetMapping("/update/{id}")
-    public String updateAdmin(@PathVariable("id")Long id, Model model) {
+    public String updateAdmin(@PathVariable("id")Long id,Model model) {
         AdminDto adminDto=adminService.findById(id);
+        System.out.println(adminDto);
         model.addAttribute("adminDto",adminDto);
         return "admin/updateAdmin";
     }
-    //update
-
-       @PostMapping("/admin")
-       public String updateAdmin(@ModelAttribute Model model,AdminDto adminDto){
-            try {
-                AdminDto save=adminService.save(adminDto);
-                model.addAttribute("message","Admin Update successfully");
-            }catch (Exception e)
-            {
-                model.addAttribute("message","Admin Update failed !! tye again");
-                e.printStackTrace();
-            }
-            model.addAttribute("adminDto",adminDto);
-            return "admin/updateAdmin";
-        }
 
 }

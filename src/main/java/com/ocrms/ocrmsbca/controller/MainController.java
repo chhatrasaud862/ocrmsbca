@@ -1,9 +1,9 @@
 package com.ocrms.ocrmsbca.controller;
 
 import com.ocrms.ocrmsbca.dto.UserDto;
+import com.ocrms.ocrmsbca.service.impl.AdminServiceImpl;
 import com.ocrms.ocrmsbca.service.impl.UserServiceImpl;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +23,11 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/")
 public class MainController {
-
+    private final AdminServiceImpl adminService;
     private final UserServiceImpl userService;
 
-    public MainController(UserServiceImpl userService) {
+    public MainController(AdminServiceImpl adminService, UserServiceImpl userService) {
+        this.adminService = adminService;
         this.userService = userService;
     }
 
@@ -50,6 +51,7 @@ public class MainController {
             response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/user/landing"));
         }
         else if(role.contains("ROLE_ADMIN")) {
+          /*  model.addAttribute("admin",adminService.findAll());*/
             response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/admin/landing"));
         }
     }

@@ -83,6 +83,23 @@ public class ComplainController {
                                  RedirectAttributes redirectAttributes) throws IOException {
         ComplainDto complainDto=complainService.findById(id);
         model.addAttribute("complainDto",complainDto);
-        return "redirect:/complain";
+        return "user/updateComplain";
+    }
+
+    @PostMapping("/update")
+    public String updateComplain(@ModelAttribute ComplainDto complainDto,Model model,Principal principal) throws ParseException, IOException {
+        try{
+            String name=principal.getName();
+            User user=userRepository.findUserByEmail(name);
+            complainDto.setUser(user);
+            ComplainDto save=complainService.update(complainDto);
+            model.addAttribute("message","Complain Update Successfully");
+        }catch (Exception e)
+        {
+            model.addAttribute("message","Complain Update Failed !! Try Again");
+            e.printStackTrace();
+        }
+        model.addAttribute("complainDto",complainDto);
+        return "user/updateComplain";
     }
 }
