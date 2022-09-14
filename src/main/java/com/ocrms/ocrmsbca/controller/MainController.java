@@ -6,11 +6,13 @@ import com.ocrms.ocrmsbca.service.impl.UserServiceImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 
 
@@ -63,16 +65,15 @@ public class MainController {
     }
 
     @PostMapping("/save")
-    public String saveUser(@ModelAttribute UserDto userDto, Model model)  {
-        UserDto save=userService.save(userDto);
-        try{
-
-            model.addAttribute("message","user register successfully");
-        }catch (Exception e)
-        {
-            model.addAttribute("message","user register failed !! try again");
-            e.printStackTrace();
-
+    public String saveUser(@Valid @ModelAttribute UserDto userDto, Model model, BindingResult bindingResult)  {
+        if(!bindingResult.hasErrors()){
+            try{
+         UserDto save=userService.save(userDto);
+         model.addAttribute("message","user register successfully");
+        }catch (Exception e) {
+                model.addAttribute("message", "user register failed !! try again");
+                e.printStackTrace();
+            }
         }
         model.addAttribute("userDto",userDto);
         return "user/signupUser";

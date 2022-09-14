@@ -44,7 +44,7 @@ public interface ComplainRepository extends JpaRepository<Complain,Long> {
     int getTotalComplain();
 
     @Query(value = "select count(uc.complain_status)from user_complain uc where uc.complain_status= 0",nativeQuery = true)
-    String getPendingComplain();
+    boolean getPendingComplain();
 
     @Query(value = "select count(uc.complain_status)from user_complain uc where uc.complain_status=1",nativeQuery = true)
     String getApproveComplain();
