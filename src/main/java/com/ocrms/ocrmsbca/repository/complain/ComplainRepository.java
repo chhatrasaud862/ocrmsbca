@@ -27,32 +27,38 @@ public interface ComplainRepository extends JpaRepository<Complain,Long> {
     @Query( value = "select * from tbl_complain order by id",nativeQuery = true)
     public Page<Complain> getTotalComplain(Pageable pageable);
 
-    @Modifying(flushAutomatically = true)
-    @Query("update Complain set complainStatus=1 where id=:userId")
-    public void updateComplainStatus(@Param("userId") Long userId);
+    @Query(value = "SELECT count(uc.complain_status) from tbl_complain uc inner join tbl_user u on u.id=uc.user_id where uc.user_id=:userId",nativeQuery = true)
+    Long getComplainByComplainStatus(Long userId);
 
-   /* @Transactional
-    @Modifying
-    @Query("update Complain set complainStatus=1 where id=:compalinId")
-    void setApproveStatus(@Param("complainId") Long complainId);*/
+    @Query(value = "SELECT count(uc.complain_status)from tbl_complain uc inner join tbl_user u on u.id=uc.user_id where uc.user_id=:userId  and uc.complain_status= 0",nativeQuery = true)
+    Long getComplainByComplainStatus_Pending(Long userId);
+
+    @Query(value = "select count(uc.complain_status)from tbl_complain uc inner join tbl_user u on u.id=uc.user_id where uc.user_id=:userId  and uc.complain_status= 1",nativeQuery = true)
+    Long getComplainByComplainStatus_Approve(Long userId);
+
+    @Query(value = "select count(uc.complain_status)from tbl_complain uc inner join tbl_user u on u.id=uc.user_id where uc.user_id=:userId and uc.complain_status= 2",nativeQuery = true)
+    Long getComplainByComplainStatus_Reject(Long userId);
+
 
 
     @Query(value = "SELECT * FROM user_complain u WHERE u.register_id=?1 and u.complain_status=1",nativeQuery = true)
     List<Complain> getVerifiedStatus(Integer userId);
 
-    @Query(value = "select count(uc.complain_status) from user_complain uc",nativeQuery = true)
-    int getTotalComplain();
+    @Query(value = "select count(uc.complain_status) from tbl_complain uc",nativeQuery = true)
+    String getTotalComplain();
 
-    @Query(value = "select count(uc.complain_status)from user_complain uc where uc.complain_status= 0",nativeQuery = true)
-    boolean getPendingComplain();
+    @Query(value = "select count(uc.complain_status)from tbl_complain uc where uc.complain_status= 0",nativeQuery = true)
+    String getPendingComplain();
 
-    @Query(value = "select count(uc.complain_status)from user_complain uc where uc.complain_status=1",nativeQuery = true)
+    @Query(value = "select count(uc.complain_status)from tbl_complain uc where uc.complain_status=1",nativeQuery = true)
     String getApproveComplain();
+
+    @Query(value = "select count(uc.complain_status)from tbl_complain uc where uc.complain_status=2",nativeQuery = true)
+    String getRejectComplain();
 
     @Query(value = "select * from tbl_complain u  order by u.id",nativeQuery = true)
     List<Complain> getComplainDetails();
 
-    @Query(value = "select tc.user from tbl_user tc where id=tc.id",nativeQuery = true)
-    List<Complain>getUser(Integer userId);
-
+    @Query(value = "select name from tbl_complain tc inner join tbl_user u on u.id=tc.user_id where tc.user_id=:userId and tc.complain_status=1",nativeQuery = true)
+    String getComplainByAndUserName(Long userId);
 }

@@ -68,14 +68,19 @@ public class MainController {
     public String saveUser(@Valid @ModelAttribute UserDto userDto, Model model, BindingResult bindingResult)  {
         if(!bindingResult.hasErrors()){
             try{
-         UserDto save=userService.save(userDto);
-         model.addAttribute("message","user register successfully");
-        }catch (Exception e) {
+           userDto=userService.save(userDto);
+          model.addAttribute("message","user register successfully");
+         }catch (Exception e) {
                 model.addAttribute("message", "user register failed !! try again");
                 e.printStackTrace();
             }
         }
         model.addAttribute("userDto",userDto);
         return "user/signupUser";
+    }
+
+    @GetMapping("/about")
+    public String openAboutPage(){
+        return "about";
     }
 }

@@ -11,9 +11,9 @@
             src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
-<div th:replace="admin/adminHome::css_link"></div>
-<div th:replace="admin/adminHome::css"></div>
-<div th:replace="admin/adminHome::admin_navbar"></div>
+<div th:replace="user/userHome::css_link"></div>
+<div th:replace="user/userHome::css"></div>
+<div th:replace="user/userHome::admin_navbar"></div>
 <div align="center" style="width: 1000px; margin-left: 25%">
     <h2>Complain Details</h2>
     <!--<div id="chart_div"></div>-->
@@ -25,32 +25,32 @@
         google.charts.load('current', {
             packages: ['corechart', 'bar']
         });
-       /* google.charts.setOnLoadCallback(drawColumnChart);*/
+        /* google.charts.setOnLoadCallback(drawColumnChart);*/
         google.charts.setOnLoadCallback(drawPieChart);
     });
 
-/*
-    function drawColumnChart() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Complain Details');
-        data.addColumn('number', 'complian');
-        Object.keys(real_data).forEach(function (key) {
-            data.addRow([key, real_data[key]]);
-        });
-        var options = {
-            title: 'Blog stats',
-            hAxis: {
-                title: 'complain',
-            },
-            vAxis: {
-                title: 'View Count'
-            }
-        };
-        var chart = new google.visualization.ColumnChart(document
-            .getElementById('chart_div'));
-        chart.draw(data, options);
-    }
-*/
+    /*
+        function drawColumnChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Complain Details');
+            data.addColumn('number', 'complian');
+            Object.keys(real_data).forEach(function (key) {
+                data.addRow([key, real_data[key]]);
+            });
+            var options = {
+                title: 'Blog stats',
+                hAxis: {
+                    title: 'complain',
+                },
+                vAxis: {
+                    title: 'View Count'
+                }
+            };
+            var chart = new google.visualization.ColumnChart(document
+                .getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+    */
 
     function drawPieChart() {
         var data = new google.visualization.DataTable();

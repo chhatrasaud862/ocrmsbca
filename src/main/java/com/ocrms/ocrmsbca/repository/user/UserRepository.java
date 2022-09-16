@@ -18,4 +18,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
     public User findUserByEmail(String email);
     @Query(value = "select id from tbl_user",nativeQuery = true)
     public Long getId();
+
+    @Query(value = "select count(*) from tbl_user",nativeQuery = true)
+    String totalUser();
 }

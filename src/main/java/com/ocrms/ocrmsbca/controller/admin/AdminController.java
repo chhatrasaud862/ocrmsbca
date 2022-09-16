@@ -16,12 +16,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 
 /**
@@ -50,84 +54,98 @@ public class AdminController {
     }
 
     @RequestMapping("/landing")
-    private String landingPage(){
+    private String landingPage(Model model) {
+        Map<String, Double> graphData = new TreeMap<>();
+        graphData.put("Total User", Double.valueOf(userService.totalUser()));
+        graphData.put("Total Complain", Double.valueOf(complainService.getTotalComplain()));
+        graphData.put("Pending Complain", Double.valueOf(complainService.getPendingComplain()));
+        graphData.put("Complete Complain", Double.valueOf(complainService.getApproveComplain()));
+        graphData.put("Reject Complain", Double.valueOf(complainService.getRejectComplain()));
+        model.addAttribute("chartData", graphData);
         return "admin/adminHome";
     }
 
-    @GetMapping("/dashboard")
-    public String dashboard(){
-        return "admin/dashboard";
 
+    @GetMapping("/dashboard")
+    public String dashboard(Model model) {
+        Map<String, Double> graphData = new TreeMap<>();
+        graphData.put("Total User", Double.valueOf(userService.totalUser()));
+        graphData.put("Total Complain", Double.valueOf(complainService.getTotalComplain()));
+        graphData.put("Pending Complain", Double.valueOf(complainService.getPendingComplain()));
+        graphData.put("Complete Complain", Double.valueOf(complainService.getApproveComplain()));
+        graphData.put("Reject Complain", Double.valueOf(complainService.getRejectComplain()));
+        model.addAttribute("chartData", graphData);
+        return "admin/dashboard";
     }
+
 
     @GetMapping("/addAdmin")
-    public String showAddAdmin(Model model)
-    {
-         model.addAttribute("adminDto",new AdminDto());
-         return "admin/adminAdd";
-    }
-    @PostMapping
-    public String saveAdmin(@ModelAttribute AdminDto adminDto,Model model)
-    {
-        try {
-            AdminDto save=adminService.save(adminDto);
-            model.addAttribute("message","Admin added successfully");
-        }catch (Exception e)
-        {
-            model.addAttribute("message","Admin added failed !! tye again");
-            e.printStackTrace();
-        }
-       model.addAttribute("adminDto",adminDto);
+    public String showAddAdmin(Model model) {
+        model.addAttribute("adminDto", new AdminDto());
         return "admin/adminAdd";
     }
+
+    @PostMapping
+    public String saveAdmin(@Valid @ModelAttribute AdminDto adminDto, Model model, BindingResult bindingResult) {
+        if(!bindingResult.hasErrors()) {
+            try {
+                AdminDto save = adminService.save(adminDto);
+                model.addAttribute("message", "Admin added successfully");
+            } catch (Exception e) {
+                model.addAttribute("message", "Admin added failed !! tye again");
+                e.printStackTrace();
+            }
+        }
+        model.addAttribute("adminDto", adminDto);
+        return "admin/adminAdd";
+    }
+
     @GetMapping("/adminList")
-    public String getAdminList(Model model)
-    {
-        model.addAttribute("adminList",adminService.findAll());
+    public String getAdminList(Model model) {
+        model.addAttribute("adminList", adminService.findAll());
         return "admin/listOfAdmin";
     }
+
     @GetMapping("/delete/{id}")
-    public String deleteAdmin(@PathVariable("id")Long adminId)
-    {
-      adminService.deleteById(adminId);
-      System.out.println("admin Deleted");
+    public String deleteAdmin(@PathVariable("id") Long adminId) {
+        adminService.deleteById(adminId);
+        System.out.println("admin Deleted");
         return "redirect:/admin/adminList";
     }
 
     @GetMapping("/complainList/{page}")
     public String showCrime(@PathVariable("page") Integer page, Model model) {
-        Pageable pageable= PageRequest.of(page,7);
-        Page<Complain> complainList=this.complainRepository.getTotalComplain(pageable);
+        Pageable pageable = PageRequest.of(page, 7);
+        Page<Complain> complainList = this.complainRepository.getTotalComplain(pageable);
 
-        model.addAttribute("complainList",complainList);
-        model.addAttribute("currentPage",page);
-        model.addAttribute("totalPage",complainList.getTotalPages());
-     /*   model.addAttribute("complainList",complainService.findAllComplain());*/
+        model.addAttribute("complainList", complainList);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPage", complainList.getTotalPages());
+        /*   model.addAttribute("complainList",complainService.findAllComplain());*/
         return "admin/complainList";
     }
 
     @GetMapping("/approve/{id}")
-    public String approvePage(@PathVariable("id")Long id) throws ParseException, IOException, IOException, ParseException {
-        ComplainDto complainDto=complainService.findById(id);
+    public String approvePage(@PathVariable("id") Long id) throws ParseException, IOException, IOException, ParseException {
+        ComplainDto complainDto = complainService.findById(id);
         complainDto.setComplainStatus(EComplainStatus.APPROVE);
         complainService.save(complainDto);
         return "redirect:/admin/complainList/0";
     }
 
     @GetMapping("/reject/{id}")
-    public String rejectPage(@PathVariable("id")Long id) throws ParseException, IOException, IOException, ParseException {
-        ComplainDto complainDto=complainService.findById(id);
+    public String rejectPage(@PathVariable("id") Long id) throws ParseException, IOException, IOException, ParseException {
+        ComplainDto complainDto = complainService.findById(id);
         complainDto.setComplainStatus(EComplainStatus.REJECT);
         complainService.save(complainDto);
         return "redirect:/admin/complainList/0";
     }
 
     @GetMapping("/update/{id}")
-    public String updateAdmin(@PathVariable("id")Long id,Model model) {
-        AdminDto adminDto=adminService.findById(id);
+    public String updateAdmin(@PathVariable("id") Long id, Model model) {
+        AdminDto adminDto = adminService.findById(id);
         System.out.println(adminDto);
-        model.addAttribute("adminDto",adminDto);
+        model.addAttribute("adminDto", adminDto);
         return "admin/updateAdmin";
     }
-
 }

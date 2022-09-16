@@ -11,6 +11,7 @@ import com.ocrms.ocrmsbca.service.complain.ComplainService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.Optional;
  */
 @Service
 public class ComplainServiceImpl implements ComplainService {
+    private static final DecimalFormat df = new DecimalFormat("0.00");
     private final ComplainRepository complainRepository;
     private final FileStorageComponent fileStorageComponent;
     private final UserRepository userRepository;
@@ -139,5 +141,45 @@ public class ComplainServiceImpl implements ComplainService {
         complain.setUser(complainDto.getUser());
         complainRepository.save(complain);
         return complainDto;
+    }
+
+    public String getTotalComplain() {
+        Double doneTask = Double.valueOf(complainRepository.getTotalComplain());
+        return df.format(doneTask);
+    }
+
+    public String getPendingComplain() {
+        Double pendingComplain = Double.valueOf(complainRepository.getPendingComplain());
+        return df.format(pendingComplain);
+    }
+
+    public String getApproveComplain() {
+        Double getApproveComplain = Double.valueOf(complainRepository.getApproveComplain());
+        return df.format(getApproveComplain);
+    }
+    public String getRejectComplain() {
+        Double getRejectComplain = Double.valueOf(complainRepository.getRejectComplain());
+        return df.format(getRejectComplain);
+    }
+    public String getTotalComplainUser(Long userId) {
+        Double getTotalComplainUser = Double.valueOf(complainRepository.getComplainByComplainStatus(userId));
+        return df.format(getTotalComplainUser);
+    }
+    public String getPendingComplainUser(Long userId) {
+        Double getPendingComplainUser = Double.valueOf(complainRepository.getComplainByComplainStatus_Pending(userId));
+        return df.format(getPendingComplainUser);
+    }
+    public String getApproveComplainUser(Long userId) {
+        Double getApproveComplainUser = Double.valueOf(complainRepository.getComplainByComplainStatus_Approve(userId));
+        return df.format(getApproveComplainUser);
+    }
+    public String getRejectComplainUser(Long userId) {
+        Double getRejectComplainUser = Double.valueOf(complainRepository.getComplainByComplainStatus_Reject(userId));
+        return df.format(getRejectComplainUser);
+    }
+
+    public String getUserName(Long userId) {
+        String  getUserNames = complainRepository.getComplainByAndUserName(userId);
+        return getUserNames;
     }
 }

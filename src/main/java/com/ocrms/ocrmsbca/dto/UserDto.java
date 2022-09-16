@@ -1,11 +1,10 @@
 package com.ocrms.ocrmsbca.dto;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.util.Set;
 
 /**
@@ -19,18 +18,24 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Valid
 public class UserDto {
     private Long id;
 
-    @NotNull(message = "Enter the Name")
     @NotEmpty(message = "Name can not be empty !")
     private String name;
 
-    @NotEmpty
-    @Email
+    @Email(message = "Enter valid e-mail" )
     private String email;
 
+    @NotBlank(message = "mobileNumber is required")
+    @Size(min = 10, max = 10)
+    @Length(max = 10)
     private String contact;
+
+    @Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})",
+            message = "Enter valid password")
     private String password;
+
     private Set<String> role;
 }

@@ -9,6 +9,7 @@ import com.ocrms.ocrmsbca.service.user.UserService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,7 @@ import java.util.Optional;
  */
 @Service
 public class UserServiceImpl implements UserService {
+    private static final DecimalFormat df = new DecimalFormat("0.00");
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
    private final RoleRepository roleRepository;
@@ -97,6 +99,11 @@ public class UserServiceImpl implements UserService {
     }
     public User findUserByEmail(String email){
         return userRepository.findUserByEmail(email);
+    }
+
+    public String totalUser(){
+        Double totalUser=Double.valueOf(userRepository.totalUser());
+        return df.format(totalUser);
     }
 }
 

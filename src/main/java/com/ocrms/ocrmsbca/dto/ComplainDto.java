@@ -6,6 +6,9 @@ import com.ocrms.ocrmsbca.entity.user.User;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -19,14 +22,26 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Valid
 public class ComplainDto {
     private Long id;
+
+    @NotEmpty(message = "Address can not be empty !")
     private String address;
+
     private ECrimeType crime;
+
+    @NotEmpty(message = "Crime Date can not be empty !")
     private String crimeDate;
+
     private Date complainDate;
+
     private EComplainStatus complainStatus;
+
     private User user;
+
+    @NotEmpty(message = "Description can not be empty !")
+    @Size(max = 20,min = 5)
     private String description;
    /* private String photo;
     private MultipartFile multipartFile;*/
