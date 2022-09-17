@@ -60,8 +60,13 @@
                                 <input type="date" id="crimeDate" name="crimeDate" placeholder="Enter Crime Date" class="form-control" th:field="*{crimeDate}" />
                             </div>
                             <!-- description -->
-                            <div class="form group mt-3">
-                                <textarea id="mytextarea" th:field="*{description}" placeholder="Enter Complain Description" name="description" class="form-control" rows="10"></textarea>
+                            <div class="input group mt-3">
+                                <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                                <textarea class="form-control" th:field="*{description}"
+                                          id="exampleFormControlTextarea1" rows="3"
+                                          placeholder="enter the description"></textarea>
+                                <p class="display_msg" th:if="${#fields.hasErrors('description')}"
+                                   th:errors="*{description}"></p>
                             </div>
                              <br>
                             <div>
